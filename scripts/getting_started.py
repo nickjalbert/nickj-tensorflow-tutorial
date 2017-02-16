@@ -2,6 +2,7 @@
 
 import tensorflow as tf
 import numpy as np
+import pandas as pd
 
 def constants():
     constant3, constant4 = _get_constants()
@@ -62,20 +63,21 @@ def basic_gradient_descent():
 
 
 def linear_regression_again():
+    # TODO - broken
     features = [tf.contrib.layers.real_valued_column("",dimension=1)]
     estimator = tf.contrib.learn.LinearRegressor(feature_columns=features)
     data = tf.contrib.learn.datasets.base.Dataset(
-            data = np.array([[1],[2],[3],[4]]),
-            target = np.array([[0],[-1],[-2],[-3]]))
+            data = tf.constant(np.array([[1],[2],[3],[4]])),
+            target = tf.constant(np.array([[0],[-1],[-2],[-3]])))
 
     def input_fn():
-        return tf.constant(np.array([[1],[2],[3],[4]])), tf.constant(np.array([[0],[-1],[-2],[-3]]))
-
-
-        return tf.constant([[1,2,3,4]]), tf.constant([0,-1,-2,-3])
-        return tf.contrib.learn.datasets.base.Dataset(
-            data = np.array([[1],[2],[3],[4]]),
-            target = np.array([[0],[-1],[-2],[-3]]))
+        #return data.data, data.target
+        return tf.contrib.layers.real_valued_column(column_name='x', default_value=[[1],[2],[3],[4]]), tf.contrib.layers.real_valued_column(column_name='y', default_value=[[0],[-1],[-2],[-3]])
+        #return tf.constant(np.array([[1],[2],[3],[4]])), tf.constant(np.array([[0],[-1],[-2],[-3]]))
+        #return tf.constant([[1,2,3,4]]), tf.constant([0,-1,-2,-3])
+        #return tf.contrib.learn.datasets.base.Dataset(
+        #    data = np.array([[1],[2],[3],[4]]),
+        #    target = np.array([[0],[-1],[-2],[-3]]))
         #return np.array([[1],[2],[3],[4]]), np.array([[0],[-1],[-2],[-3]])
 
     estimator.fit(input_fn=input_fn, steps=1000)
