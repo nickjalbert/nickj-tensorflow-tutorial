@@ -81,5 +81,14 @@
   data, you can adjust the word representation to be useful for classifying
   sentiments.
 
+* 1:10:21
 
+* Example: tagging parts of speech.
+  * Train word representations on unlabeled data (unsupervised pre-training, initialize word representations)
+  * Take small amount of labeled data
+  * Switch out last layer of network for softmax
+  * Backprop labeled data errors to optimize the softmax (supervised fine tuning, refine word representations for specific task)
 
+### Deep Learning for NLP without Magic (Part 2)
+
+* [Video](https://www.youtube.com/watch?v=zHXOHqIyeD4)
