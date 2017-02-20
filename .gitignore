@@ -1,2 +1,4 @@
 tensorflow3/
 MNIST_data/
+media/
+.DS_Store
