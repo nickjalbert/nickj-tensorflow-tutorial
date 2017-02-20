@@ -29,14 +29,7 @@ class Node(object):
         return 1/(1 + math.e**(-1* activation))
 
 
-
-if __name__ == "__main__":
-    # Training data
-    with open('500-training.pkl', 'rb') as fin:
-        training_data = pickle.load(fin)
-
-    assert len(training_data) == 500
-
+def sanity_checks():
     # Basic node sanity
     node = Node(0,0,{})
     node.bias = -.5
@@ -49,8 +42,33 @@ if __name__ == "__main__":
     net = Net([4, 2, 4])
 
     for layer_id, layer in net.layers.items():
-        print('Layer {} has {} nodes'.format(layer_id, len(layer)))
+        if layer_id in [0,2]:
+            assert len(layer) == 4
+        else:
+            assert len(layer) == 2
         for node in layer:
-            print('\tNode {} in layer {} has input weights {} and bias {}'.format(node.node_id, node.layer_id, node.input_weights, node.bias))
-        print()
+            if node.layer_id == 0:
+                assert node.node_id in [0,1,2,3]
+                assert node.input_weights is None
+                assert node.bias is not None
+            elif node.layer_id == 1:
+                assert node.node_id in [4,5]
+                assert len(node.input_weights) == 4
+                assert node.bias is not None
+            else:
+                assert node.node_id in [6,7,8,9]
+                assert len(node.input_weights) == 2
+                assert node.bias is not None
+
+if __name__ == "__main__":
+    # Training data
+    with open('500-training.pkl', 'rb') as fin:
+        training_data = pickle.load(fin)
+    assert len(training_data) == 500
+
+    sanity_checks()
+
+    net = Net([784, 15, 10])
+
+
 
