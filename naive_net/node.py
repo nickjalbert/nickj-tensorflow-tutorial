@@ -2,11 +2,6 @@ import math
 import random
 import pickle
 
-MNIST_PATH = "/Users/nickj/neural-networks-and-deep-learning/data/mnist.pkl"
-
-with open(MNIST_PATH, 'rb') as fin:
-    training_data, validation_data, test_data = pickle.load(fin)
-
 class Net(object):
     def __init__(self, layer_counts):
         self.layer_counts = layer_counts
@@ -36,6 +31,11 @@ class Node(object):
 
 
 if __name__ == "__main__":
+    # Training data
+    with open('500-training.pkl', 'rb') as fin:
+        result = pickle.load(fin)
+        print(sorted([(rid, rlabel) for rid, (rlabel, rdata) in result.items()]))
+
     # Basic node sanity
     node = Node(0,0,{})
     node.bias = -.5
