@@ -33,8 +33,9 @@ class Node(object):
 if __name__ == "__main__":
     # Training data
     with open('500-training.pkl', 'rb') as fin:
-        result = pickle.load(fin)
-        print(sorted([(rid, rlabel) for rid, (rlabel, rdata) in result.items()]))
+        training_data = pickle.load(fin)
+
+    assert len(training_data) == 500
 
     # Basic node sanity
     node = Node(0,0,{})
