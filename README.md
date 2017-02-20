@@ -20,11 +20,14 @@
 * [Word Representation in Vector Space](https://arxiv.org/pdf/1301.3781.pdf)
 * [A neural probabilistic language model](http://www.jmlr.org/papers/volume3/bengio03a/bengio03a.pdf)
 * [Deep Learning Papers](https://github.com/terryum/awesome-deep-learning-papers)
+* [A Beginner's Guide to the Mathematics of Neural Networks](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.161.3556&rep=rep1&type=pdf)
 
 
 #### Articles and notes
 
+* [Hacker's guide to Neural Networks](http://karpathy.github.io/neuralnets/)
 * [Visual Information Theory](http://colah.github.io/posts/2015-09-Visual-Information/)
+* [Artificial Neural Networks: Mathematics of Backpropagation (Part 4)](http://briandolhansky.com/blog/2013/9/27/artificial-neural-networks-backpropagation-part-4)
 * ~~[softmax](http://neuralnetworksanddeeplearning.com/chap3.html#softmax)~~
 
 
