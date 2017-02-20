@@ -3,6 +3,7 @@
 
 import os
 import sys
+import time
 import random
 
 def get_mnist_training_images(count, dump_images_to=None):
@@ -21,23 +22,15 @@ def get_mnist_training_images(count, dump_images_to=None):
     all_ids = list(range(60000))
     ids_to_get = _pick_ids(all_ids, count)
     images = _get_training_images_with_ids(ids_to_get)
-
     image_labels = [labels[id_to_get] for id_to_get in ids_to_get]
     assert len(images) == len(image_labels)
     assert len(ids_to_get) == len(image_labels)
-
     results = {}
     for i in range(len(images)):
         results[ids_to_get[i]] = (image_labels[i], images[i])
-
     if dump_images_to:
         _dump_images(results, dump_images_to)
-
     return results
-
-
-    print(labels)
-
 
 def get_mnist_testing_images(count, dump_images_to=None):
     """
@@ -59,14 +52,11 @@ def get_mnist_testing_images(count, dump_images_to=None):
     ids_to_get = [id_to_get+60001 for id_to_get in ids_to_get]
     assert len(images) == len(image_labels)
     assert len(ids_to_get) == len(image_labels)
-
     results = {}
     for i in range(len(images)):
         results[ids_to_get[i]] = (image_labels[i], images[i])
-
     if dump_images_to:
         _dump_images(results, dump_images_to)
-
     return results
 
 def _pick_ids(all_ids, count):
@@ -207,134 +197,15 @@ def _read_labels(path, magic_num, count):
         assert len(labels) == count
         return labels
 
-#get_mnist_testing_images(10, '../media/')
-get_mnist_training_images(20, '../media/')
-
-sys.exit(0)
-
- 
-
-# t10k-labels
-def t10k_labels():
-    with open("t10k-labels-idx1-ubyte", "rb") as f:
-        while True:
-            byte = f.read(1)
-            if not byte:
-                break
-            print(ord(byte))
-    
+if __name__ == "__main__":
+    tick = time.time()
+    print('Dumping 20 training images to ../media/')
+    get_mnist_training_images(20, '../media/')
+    print('\tTook {0:.2f} sec'.format(time.time() - tick))
+    tock = time.time()
+    print('Dumping 10 testing images to ../media/')
+    get_mnist_testing_images(10, '../media/')
+    print('\tTook {0:.2f} sec'.format(time.time() - tock))
+    print('Total time: {0:.2f} sec'.format(time.time() - tick))
 
 
-def t10k_images():
-    with open("t10k-images-idx3-ubyte", "rb") as f:
-        # Magic Number
-        assert ord(f.read(1)) == 0
-        assert ord(f.read(1)) == 0
-        assert ord(f.read(1)) == 8
-        assert ord(f.read(1)) == 3
-        # Count
-        assert ord(f.read(1)) == 0
-        assert ord(f.read(1)) == 0
-        assert ord(f.read(1)) == 39
-        assert ord(f.read(1)) == 16
-        # Rows
-        assert ord(f.read(1)) == 0
-        assert ord(f.read(1)) == 0
-        assert ord(f.read(1)) == 0
-        assert ord(f.read(1)) == 28
-        # Columns
-        assert ord(f.read(1)) == 0
-        assert ord(f.read(1)) == 0
-        assert ord(f.read(1)) == 0
-        assert ord(f.read(1)) == 28
-
-        img = []
-        print('t10k_img = [')
-        for _ in range(10000):
-            for i in range(28):
-                for j in range(28):
-                    img.append(ord(f.read(1)))
-            print(str(img) + ',')
-        print(']')
-
-
-
-        #while True:
-        #    byte = f.read(1)
-        #    if not byte:
-        #        break
-        #    print ord(byte)
-        #    raw_input()
-
-
-
-magic_letters = ["0x42", "0x4D"] 
-total_file_size = ["0x66", "0x09"] + ["0x00"]*2  #TODO 4 bytes, 78 (54 + 2352) 2406
-reserved = ["0x00"]*4
-pixel_offset = ["0x36"] + ["0x00"]*3 
-bitmap_info_header = ["0x28"] + ["0x00"]*3
-pixel_width = ["0x1C"] + ["0x00"]*3 
-pixel_height = ["0x1C"] + ["0x00"]*3 
-color_plane = ["0x01", "0x00"]
-bits_per_pixel = ["0x18", "0x00"]
-disable_compression = ["0x00"]*4
-size_of_raw_data =  ["0x10", "0x03"]+ ["0x00"]*2 # 4 bytes pixel size, 784
-horiz_resolution =  ["0x13", "0x0B"] + ["0x00"]*2
-vert_resolution =  ["0x13", "0x0B"] + ["0x00"]*2
-color_number = ["0x00"]*4
-important_colors = ["0x00"]*4
-
-
-rows = ['0xAA']*(784*3)
-
-
-ubyte_rows = []
-tmp_row = []
-
-for ubyte in img_ubtye:
-    tmp_row.append(ubyte)
-    if len(tmp_row) == 28:
-        ubyte_rows.append(tmp_row)
-        tmp_row = []
-
-assert len(ubyte_rows) == 28
-for ubyte_row in ubyte_rows:
-    assert len(ubyte_row) == 28
-
-ubyte_rows.reverse()
-pixel_data = []
-
-reflect_table = {}
-for i,j in zip(range(256), sorted(range(256), key=lambda x: -x)):
-    reflect_table[i] = j
-
-for ubyte_row in ubyte_rows:
-    for ubyte in ubyte_row:
-        pixel_data.append(hex(reflect_table[ubyte]))
-        pixel_data.append(hex(reflect_table[ubyte]))
-        pixel_data.append(hex(reflect_table[ubyte]))
-
-
-
-my_img = magic_letters + total_file_size + reserved + pixel_offset + bitmap_info_header + pixel_width + pixel_height + color_plane + bits_per_pixel + disable_compression + size_of_raw_data + horiz_resolution + vert_resolution + color_number + important_colors + pixel_data
-
-#assert len(my_img) == 78
-
-with open("mnist_sample.bmp", 'wb') as output:
-    output.write(bytearray(int(i, 16) for i in my_img))
-
-
-#with open("test.bmp", "rb") as f:
-#    while True:
-#        byte = f.read(1)
-#        if not byte:
-##            break
-#        print ord(byte)
-#        raw_input()
- 
-
- 
-
-if __name__ == '__main__':
-    # t10k_labels()
-    t10k_images()
