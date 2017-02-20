@@ -5,6 +5,7 @@ import os
 import sys
 import time
 import random
+import pickle
 
 def get_mnist_training_images(count, dump_images_to=None):
     """
@@ -199,13 +200,16 @@ def _read_labels(path, magic_num, count):
 
 if __name__ == "__main__":
     tick = time.time()
-    print('Dumping 20 training images to ../media/')
-    get_mnist_training_images(20, '../media/')
+    training_count = 500
+    print('Dumping {} training images to ../media/'.format(training_count))
+    training = get_mnist_training_images(training_count, '../media/')
+    with open('{}-training.pkl'.format(training_count), 'wb') as fout:
+        pickle.dump(training, fout)
     print('\tTook {0:.2f} sec'.format(time.time() - tick))
-    tock = time.time()
-    print('Dumping 10 testing images to ../media/')
-    get_mnist_testing_images(10, '../media/')
-    print('\tTook {0:.2f} sec'.format(time.time() - tock))
-    print('Total time: {0:.2f} sec'.format(time.time() - tick))
+    #tock = time.time()
+    #print('Dumping 10 testing images to ../media/')
+    #testing = get_mnist_testing_images(10, '../media/')
+    #print('\tTook {0:.2f} sec'.format(time.time() - tock))
+    #print('Total time: {0:.2f} sec'.format(time.time() - tick))
 
 
