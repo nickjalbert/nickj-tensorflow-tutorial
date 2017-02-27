@@ -10,6 +10,7 @@
 #### Books 
 * [Neural Networks and Deep Learning](http://neuralnetworksanddeeplearning.com/chap1.html)
 * [Deep Learning Book Linear Algebra](http://www.deeplearningbook.org/contents/linear_algebra.html)
+* [Probabilistic Programming & Bayesian Methods for Hackers](http://camdavidsonpilon.github.io/Probabilistic-Programming-and-Bayesian-Methods-for-Hackers/)
 
 #### Packages and algorithms
 * [Word2Vec](https://deeplearning4j.org/word2vec#intro)
